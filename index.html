@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizza Order</title>
+    <title>OrderBot</title>
 </head>
 <body>
     <header>
@@ -17,7 +17,9 @@
         <h2>ORDER FORM</h2>
         <form class="order-form">
             <label for="pizza">Choose Your Pizza:</label>
-            <select id="pizza" name="pizza">
+            <select id="pizza" name="pizza" multiple>
+                
+                <option value="0-0" selected disabled hidden='hidden'>Choose here</option>
                 <option value="pepperoni-12.95">Pepperoni Pizza - Large - $12.95</option>
                 <option value="pepperoni-10.00">Pepperoni Pizza - Medium - $10.00</option>
                 <option value="pepperoni-7.00">Pepperoni Pizza - Small - $7.00</option>
@@ -30,28 +32,31 @@
             </select>
             <label for="toppings">Choose Toppings:</label>
             <select id="toppings" name="toppings" multiple>
-                <option value="extra-cheese-2.00">Extra Cheese - $2.00</option>
+                <option value="0-0" selected disabled hidden='hidden'>Choose here</option>
+                <option value="extra cheese-2.00">Extra Cheese - $2.00</option>
                 <option value="mushrooms-1.50">Mushrooms - $1.50</option>
                 <option value="sausage-3.00">Sausage - $3.00</option>
-                <option value="canadian-bacon-3.50">Canadian Bacon - $3.50</option>
-                <option value="ai-sauce-1.50">AI Sauce - $1.50</option>
+                <option value="canadian bacon-3.50">Canadian Bacon - $3.50</option>
+                <option value="ai sauce-1.50">AI Sauce - $1.50</option>
                 <option value="peppers-1.00">Peppers - $1.00</option>
             </select>
             <label for="sides">Choose Sides:</label>
             <select id="sides" name="sides" multiple>
+                <option value="0-0" selected disabled hidden='hidden'>Choose here</option>
                 <option value="fries-4.50">Fries - Large - $4.50</option>
                 <option value="fries-3.50">Fries - Small - $3.50</option>
-                <option value="greek-salad-7.25">Greek Salad - $7.25</option>
+                <option value="greek salad-7.25">Greek Salad - $7.25</option>
             </select>
             <label for="drinks">Choose Drinks:</label>
             <select id="drinks" name="drinks" multiple>
+                <option value="0-0" selected disabled hidden='hidden'>Choose here</option>
                 <option value="coke-3.00">Coke - Large - $3.00</option>
                 <option value="coke-2.00">Coke - Medium - $2.00</option>
                 <option value="coke-1.00">Coke - Small - $1.00</option>
                 <option value="sprite-3.00">Sprite - Large - $3.00</option>
                 <option value="sprite-2.00">Sprite - Medium - $2.00</option>
                 <option value="sprite-1.00">Sprite - Small - $1.00</option>
-                <option value="bottled-water-5.00">Bottled Water - $5.00</option>
+                <option value="bottled water-5.00">Bottled Water - $5.00</option>
             </select>
             <label for="order-type">Pickup or Delivery:</label>
             <select id="order-type" name="order-type">
@@ -80,16 +85,37 @@
 
         function submitOrder() {
             const pizza = document.getElementById('pizza').value;
-            const toppings = Array.from(document.getElementById('toppings').selectedOptions).map(option => option.value);
-            const sides = Array.from(document.getElementById('sides').selectedOptions).map(option => option.value);
-            const drinks = Array.from(document.getElementById('drinks').selectedOptions).map(option => option.value);
+            const toppings = document.getElementById('toppings').value;
+            const sides = document.getElementById('sides').value;
+            const drinks = document.getElementById('drinks').value;
             const orderType = document.getElementById('order-type').value;
             const address = document.getElementById('address').value;
+            pr = 0;
 
-            let orderSummary = `Pizza: ${pizza}\nToppings: ${toppings.join(', ')}\nSides: ${sides.join(', ')}\nDrinks: ${drinks.join(', ')}\nOrder Type: ${orderType}`;
-            if (orderType === 'delivery') {
-                orderSummary += `\nDelivery Address: ${address}`;
+            let lst = [pizza,toppings,sides,drinks];
+
+            console.log(lst)
+            for(let i = 0; i < lst.length; i++){
+               
+                    let type_price = lst[i].split('-');  
+
+                    console.log("lists: ",type_price);
+                    let price = parseFloat(type_price[1]);
+                    console.log(price,typeof price);
+                    pr += price;
             }
+            
+            
+
+
+            let orderSummary = `Pizza: ${pizza}\nToppings: ${toppings+', '}\nSides: ${sides+', '}\nDrinks: ${drinks+', '}\nOrder Type: ${orderType}\nTotal Price: ${pr}`;
+            if (orderType === 'delivery') {
+                orderSummary += `\nDelivery Address: ${address}\nyour order will be delivered in 20-30 mins`;
+            }
+            else{
+                orderSummary += `\nyour order will be prepared in 2-3 mins`
+            }
+
 
             alert(`Order Summary:\n${orderSummary}\n\nThank you for your order!`);
         }
