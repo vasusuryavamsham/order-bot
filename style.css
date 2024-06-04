@@ -10,7 +10,7 @@ head,body {
 }
 
 .container {
-    max-width: 60%;
+    max-width: 75%;
     margin: auto;
     overflow: hidden;
 }
