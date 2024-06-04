@@ -84,8 +84,8 @@
         });
 
         function submitOrder() {
-            const pizza = document.getElementById('pizza').value;
-            const pizzaPrice = parseFloat(pizza.split('-')[1]);
+            const pizza =  Array.from(document.getElementById('pizza').selectedOptions).map(option => option.value);
+            const pizzaPrice = pizza.map(piz => parseFloat(piz.split('-')[1]));
             
             const toppings = Array.from(document.getElementById('toppings').selectedOptions).map(option => option.value);
             const toppingPrices = toppings.map(topping => parseFloat(topping.split('-')[1]));
