@@ -99,7 +99,7 @@
             const orderType = document.getElementById('order-type').value;
             const address = document.getElementById('address').value;
 
-            const totalPrice = pizzaPrice + toppingPrices.reduce((a, b) => a + b, 0) + sidePrices.reduce((a, b) => a + b, 0) + drinkPrices.reduce((a, b) => a + b, 0);
+            const totalPrice = pizzaPrice.reduce((a, b) => a + b, 0) + toppingPrices.reduce((a, b) => a + b, 0) + sidePrices.reduce((a, b) => a + b, 0) + drinkPrices.reduce((a, b) => a + b, 0);
 
             let orderSummary = `Pizza: ${pizza}\nToppings: ${toppings.join(', ')}\nSides: ${sides.join(', ')}\nDrinks: ${drinks.join(', ')}\nOrder Type: ${orderType}\nTotal Price: $${totalPrice.toFixed(2)}`;
             if (orderType === 'delivery') {
