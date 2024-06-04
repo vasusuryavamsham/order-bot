@@ -85,30 +85,23 @@
 
         function submitOrder() {
             const pizza = document.getElementById('pizza').value;
-            const toppings = document.getElementById('toppings').value;
-            const sides = document.getElementById('sides').value;
-            const drinks = document.getElementById('drinks').value;
+            const pizzaPrice = parseFloat(pizza.split('-')[1]);
+            
+            const toppings = Array.from(document.getElementById('toppings').selectedOptions).map(option => option.value);
+            const toppingPrices = toppings.map(topping => parseFloat(topping.split('-')[1]));
+
+            const sides = Array.from(document.getElementById('sides').selectedOptions).map(option => option.value);
+            const sidePrices = sides.map(side => parseFloat(side.split('-')[1]));
+
+            const drinks = Array.from(document.getElementById('drinks').selectedOptions).map(option => option.value);
+            const drinkPrices = drinks.map(drink => parseFloat(drink.split('-')[1]));
+
             const orderType = document.getElementById('order-type').value;
             const address = document.getElementById('address').value;
-            pr = 0;
 
-            let lst = [pizza,toppings,sides,drinks];
+            const totalPrice = pizzaPrice + toppingPrices.reduce((a, b) => a + b, 0) + sidePrices.reduce((a, b) => a + b, 0) + drinkPrices.reduce((a, b) => a + b, 0);
 
-            console.log(lst)
-            for(let i = 0; i < lst.length; i++){
-               
-                    let type_price = lst[i].split('-');  
-
-                    console.log("lists: ",type_price);
-                    let price = parseFloat(type_price[1]);
-                    console.log(price,typeof price);
-                    pr += price;
-            }
-            
-            
-
-
-            let orderSummary = `Pizza: ${pizza}\nToppings: ${toppings+', '}\nSides: ${sides+', '}\nDrinks: ${drinks+', '}\nOrder Type: ${orderType}\nTotal Price: ${pr}`;
+            let orderSummary = `Pizza: ${pizza}\nToppings: ${toppings.join(', ')}\nSides: ${sides.join(', ')}\nDrinks: ${drinks.join(', ')}\nOrder Type: ${orderType}\nTotal Price: $${totalPrice.toFixed(2)}`;
             if (orderType === 'delivery') {
                 orderSummary += `\nDelivery Address: ${address}\nyour order will be delivered in 20-30 mins`;
             }
